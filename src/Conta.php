@@ -2,16 +2,13 @@
 
 class Conta{
 
-    private string $cpfTitular;
-    private string $nomeTitular;
+    private $titular;
     private float $saldo;
     private static $numeroDeContas = 0;
 
-    public function __construct(string $cpfTitular, string $nomeTitular)
+    public function __construct(Titular $titular)
     {
-        $this->cpfTitular = $cpfTitular;
-        $this->validaNomeTitular($nomeTitular);
-        $this->nomeTitular = $nomeTitular;
+        $this->titular = $titular;
         $this->saldo = 0;
         
         self::$numeroDeContas++; //Esse atributo é acessado pelo nome da class por ele ser statico, também pode ser acessado pelo nome reservado self
@@ -60,26 +57,23 @@ class Conta{
         $ContaDestino->depositar($valorATransferir);
     }
 
-    public function recuperaCPFTitular(): string
-    {
-        return $this->cpfTitular;
-    }
-
-    public function recuperaNomeTitular(): string
-    {
-        return $this->nomeTitular;
-    }
+   
 
     public function recuperaSaldo(): float //oque será retornado pela function
     {
         return $this->saldo;
     }
-    private function validaNomeTitular(string $nomeTitular){
-        if (strlen($nomeTitular) < 5){ // strlen() verifica tamanho de uma string
-            echo "Nome precisa ter pelo menos 5 caracteres";
-            exit();
-        }
+    
+    public function recuperaNomeTitular(): string
+    {
+        return $this->titular->recuperaNome();
     }
+
+    public function recuperaCpfTitular(): string
+    {
+        return $this->titular->recuperaCpf();
+    }
+
     public static function recuperaNumeroDeContas(): int
     {
         return self::$numeroDeContas;
